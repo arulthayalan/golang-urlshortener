@@ -2,7 +2,7 @@ package urlshort
 
 import (
 	"testing"
-
+   "github.com/google/go-cmp/cmp"
 )
 
 type Case struct {
@@ -34,4 +34,30 @@ func TestBuildMap(t *testing.T) {
 			t.Errorf("buildMap key: %q == %v, want %v", testcase.key, got, testcase.value)
 		}
 	}
+}
+
+func TestParseYml(t *testing.T) {
+	wantPathUrls :=  []pathUrl{
+		{
+			Path: "/urlshort",
+			URL: "https://github.com/gophercises/urlshort",
+		},
+	}
+	inYaml := `
+- path: /urlshort
+  url: https://github.com/gophercises/urlshort
+`
+
+	gotPathUrls, err := 	parseYaml([]byte(inYaml))
+
+	if (err != nil) {
+		t.Errorf("parseYml %v", err)
+	}
+
+	for i, pu := range gotPathUrls {
+		if diff := cmp.Diff(wantPathUrls[i], pu); diff != "" {
+			t.Errorf("parseYaml() mismatch (-want +got):\n%s", diff)
+		}
+	}
+
 }
