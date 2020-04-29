@@ -73,6 +73,6 @@ func buildMap(pathUrls []pathUrl) map[string]string {
 }
 
 type pathUrl struct {
-	Path string `yaml:"path"`
-	URL string `yaml:"url"`
+	Path     string `json:"path,omitempty"`
+	URL      string `json:"url,omitempty"`
 }

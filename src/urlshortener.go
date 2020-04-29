@@ -4,11 +4,10 @@ import (
 	"net/http"
 	"github.com/arulthayalan/url-shortener/urlshort"
 	"fmt"
-	"strings"
 	"log"
 )
 
-const PORT string = "8080"
+const PORT int = 8080
 
 func main() {
 	mux := defaultMux()
@@ -33,17 +32,15 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("Starting the server on :%q\n", PORT)
+	fmt.Printf("Starting the server on :%d\n", PORT)
 
-	host := strings.Join([]string{":", PORT}, "")
-	
 	//http.HandleFunc("/", defaultHandler)
 	
 	//default hanlder
 	//log.Fatal(http.ListenAndServe(host, mux))
 
 	//Map handler
-	log.Fatal(http.ListenAndServe(host, yamlHandler))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d",PORT), yamlHandler))
 
 }
 
